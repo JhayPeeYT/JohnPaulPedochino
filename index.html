@@ -8,6 +8,21 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
 
+/* Background design */
+body {
+    background: linear-gradient(135deg, #1a1a1a, #111, #222);
+    color:white; text-align:center; overflow-x:hidden;
+    transition: background-color 1s;
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events:none; z-index:0;
+}
+
 /* Intro Animation */
 #intro {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -20,10 +35,9 @@
 @keyframes textFade { from {opacity:0;} to {opacity:1;} }
 
 /* Main Content */
-body { background-color:#000; color:white; text-align:center; transition: background-color 1s; }
-#main-content { display: none; }
-header { margin-top:50px; }
-.profile-img { width:150px; height:150px; border-radius:50%; border:3px solid white; box-shadow:0 0 10px rgba(255,255,255,0.3); transition: transform 0.3s; }
+#main-content { display: none; z-index:1; position: relative; }
+header { margin-top:50px; position: relative; z-index:2; }
+.profile-img { width:150px; height:150px; border-radius:50%; border:3px solid white; box-shadow:0 0 20px rgba(255,255,255,0.3); transition: transform 0.3s; }
 .profile-img:hover { transform: scale(1.05); }
 h1 { margin-top:20px; font-size:2em; }
 p { font-size:1.2em; color:#ccc; }
@@ -34,19 +48,31 @@ p { font-size:1.2em; color:#ccc; }
 .social-icon:hover { color:#ff4b5c; }
 
 /* About */
-.about { margin:50px 20px; }
+.about { margin:50px 20px; position: relative; z-index:2; }
 .about h2 { font-size:2em; margin-bottom:20px; }
 .about p { font-size:1.1em; line-height:1.5; color:#ddd; }
 
 /* Gallery */
-.gallery { margin:40px 20px; }
+.gallery { margin:40px 20px; position: relative; z-index:2; }
 .gallery h2 { font-size:1.8em; margin-bottom:20px; }
 .gallery-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; overflow-x:auto; padding-bottom:10px; }
-.gallery-grid img { width:180px; height:300px; object-fit:cover; border-radius:10px; transition: transform 0.3s; }
-.gallery-grid img:hover { transform: scale(1.05); }
+.gallery-item { position: relative; width:180px; height:300px; border-radius:10px; overflow:hidden; }
+.gallery-item::before {
+    content:'';
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background: rgba(255,255,255,0.1); backdrop-filter: blur(8px);
+    transition: backdrop-filter 0.3s;
+    z-index:1;
+}
+.gallery-item img {
+    width:100%; height:100%; object-fit:cover; border-radius:10px;
+    display:block; position:relative; z-index:0; transition: transform 0.3s;
+}
+.gallery-item:hover img { transform: scale(1.05); }
+.gallery-item:hover::before { backdrop-filter: blur(0px); }
 
 /* Contact */
-.contact { margin:50px 20px; }
+.contact { margin:50px 20px; position: relative; z-index:2; }
 .contact h2 { font-size:2em; margin-bottom:20px; }
 .contact p { font-size:1.1em; color:#ddd; margin:5px 0; }
 .contact a { color:#ff4b5c; text-decoration:none; }
@@ -75,7 +101,7 @@ p { font-size:1.2em; color:#ccc; }
         <a href="https://www.youtube.com/@JhayPeeYT" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
         <a href="https://www.instagram.com/jhaypee_ph/?__pwa=1" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
         <a href="https://www.tiktok.com/@jhaypeeyt" target="_blank" class="social-icon"><i class="fab fa-tiktok"></i></a>
-        <a href="https://x.com/JhayPeeYT" target="_blank" class="social-icon"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://x.com/JhayPeeYT" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
         <a href="https://open.spotify.com/user/315bo3wipfrt6gyfvygnmftjn62a" target="_blank" class="social-icon"><i class="fab fa-spotify"></i></a>
     </section>
 
@@ -89,17 +115,17 @@ p { font-size:1.2em; color:#ccc; }
     <section class="gallery">
         <h2>My Work</h2>
         <div class="gallery-grid">
-            <img src="images/1.jpg" alt="Work 1">
-            <img src="images/2.jpg" alt="Work 2">
-            <img src="images/3.jpg" alt="Work 3">
-            <img src="images/4.jpg" alt="Work 4">
-            <img src="images/5.jpg" alt="Work 5">
-            <img src="images/7.jpg" alt="Work 7">
-            <img src="images/8.jpg" alt="Work 8">
-            <img src="images/10.jpg" alt="Work 10">
-            <img src="images/11.jpg" alt="Work 11">
-            <img src="images/12.jpg" alt="Work 12">
-            <img src="images/13.JPG" alt="Work 13">
+            <div class="gallery-item"><img src="images/1.jpg" alt="Work 1"></div>
+            <div class="gallery-item"><img src="images/2.jpg" alt="Work 2"></div>
+            <div class="gallery-item"><img src="images/3.jpg" alt="Work 3"></div>
+            <div class="gallery-item"><img src="images/4.jpg" alt="Work 4"></div>
+            <div class="gallery-item"><img src="images/5.jpg" alt="Work 5"></div>
+            <div class="gallery-item"><img src="images/7.jpg" alt="Work 7"></div>
+            <div class="gallery-item"><img src="images/8.jpg" alt="Work 8"></div>
+            <div class="gallery-item"><img src="images/10.jpg" alt="Work 10"></div>
+            <div class="gallery-item"><img src="images/11.jpg" alt="Work 11"></div>
+            <div class="gallery-item"><img src="images/12.jpg" alt="Work 12"></div>
+            <div class="gallery-item"><img src="images/13.JPG" alt="Work 13"></div>
         </div>
     </section>
 
