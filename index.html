@@ -8,7 +8,7 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
 
-/* Modern animated background */
+/* Background with dynamic color fallback */
 body {
     margin:0;
     font-family: Arial, sans-serif;
@@ -18,14 +18,7 @@ body {
     position: relative;
     min-height:100vh;
     background: linear-gradient(-45deg, #1e1e2f, #2a2a3d, #1e1e2f, #2a2a3d);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    transition: opacity 1s ease;
-}
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    transition: background 1s ease, opacity 1s ease;
 }
 
 /* Floating shapes */
@@ -213,16 +206,39 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 3000);
 });
 
-/* Gallery Lightbox */
+/* Gallery Lightbox & Dynamic Background */
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = lightbox.querySelector('img');
+
+function getDominantColor(imgEl) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = imgEl.naturalWidth;
+    canvas.height = imgEl.naturalHeight;
+    ctx.drawImage(imgEl,0,0);
+    const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    let r=0,g=0,b=0,count=0;
+    for(let i=0;i<data.length;i+=4*10){ // sample every 10 pixels
+        r+=data[i]; g+=data[i+1]; b+=data[i+2]; count++;
+    }
+    r=Math.floor(r/count); g=Math.floor(g/count); b=Math.floor(b/count);
+    return `rgb(${r},${g},${b})`;
+}
+
 document.querySelectorAll('.gallery-item img').forEach(img=>{
     img.addEventListener('click', ()=>{
         lightboxImg.src = img.src;
         lightbox.style.display = 'flex';
+        // Change background color to image dominant color
+        const color = getDominantColor(img);
+        document.body.style.background = color;
     });
 });
-lightbox.addEventListener('click', ()=>{ lightbox.style.display='none'; });
+lightbox.addEventListener('click', ()=>{
+    lightbox.style.display='none';
+    // revert background to original gradient
+    document.body.style.background = 'linear-gradient(-45deg, #1e1e2f, #2a2a3d, #1e1e2f, #2a2a3d)';
+});
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
