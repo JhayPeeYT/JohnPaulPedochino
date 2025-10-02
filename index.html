@@ -20,6 +20,7 @@ body {
     background: linear-gradient(-45deg, #1e1e2f, #2a2a3d, #1e1e2f, #2a2a3d);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
+    transition: opacity 1s ease;
 }
 @keyframes gradientBG {
     0% { background-position: 0% 50%; }
@@ -55,7 +56,7 @@ body {
 @keyframes textFade { from {opacity:0;} to {opacity:1;} }
 
 /* Main Content */
-#main-content { display: none; z-index:1; position: relative; }
+#main-content { display: none; z-index:1; position: relative; opacity:0; transition: opacity 1s ease; }
 header { margin-top:50px; position: relative; z-index:2; }
 
 /* Profile Image Frame */
@@ -92,6 +93,7 @@ p { font-size:1.2em; color:#ccc; }
     border: 2px solid rgba(255,255,255,0.2);
     box-shadow: 0 0 15px rgba(255,255,255,0.1), 0 0 30px rgba(255,75,92,0.05);
     transition: transform 0.3s, box-shadow 0.3s;
+    cursor:pointer;
 }
 .gallery-item:hover {
     transform: scale(1.05);
@@ -119,6 +121,15 @@ p { font-size:1.2em; color:#ccc; }
 .contact a { color:#ff4b5c; text-decoration:none; }
 .contact a:hover { text-decoration:underline; }
 
+/* Lightbox */
+#lightbox {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.9);
+    display: none; justify-content:center; align-items:center; z-index:10000;
+    cursor:pointer;
+}
+#lightbox img { max-width:90%; max-height:90%; border-radius:15px; box-shadow:0 0 30px rgba(255,255,255,0.5); transition: transform 0.3s; }
+#lightbox img:hover { transform: scale(1.05); }
 </style>
 </head>
 <body>
@@ -184,17 +195,34 @@ p { font-size:1.2em; color:#ccc; }
     </section>
 </div>
 
+<!-- Lightbox -->
+<div id="lightbox"><img src="" alt="Zoomed Image"></div>
+
 <script>
+/* Intro/outro animation */
 window.addEventListener('DOMContentLoaded', () => {
+    const main = document.getElementById('main-content');
+    const intro = document.getElementById('intro');
     setTimeout(() => {
-        const intro = document.getElementById('intro');
         intro.style.opacity = '0';
         setTimeout(() => {
             intro.style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
+            main.style.display = 'block';
+            setTimeout(()=>{main.style.opacity='1'}, 50);
         }, 1000);
     }, 3000);
 });
+
+/* Gallery Lightbox */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('img');
+document.querySelectorAll('.gallery-item img').forEach(img=>{
+    img.addEventListener('click', ()=>{
+        lightboxImg.src = img.src;
+        lightbox.style.display = 'flex';
+    });
+});
+lightbox.addEventListener('click', ()=>{ lightbox.style.display='none'; });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
