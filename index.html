@@ -57,8 +57,19 @@ body {
 /* Main Content */
 #main-content { display: none; z-index:1; position: relative; }
 header { margin-top:50px; position: relative; z-index:2; }
-.profile-img { width:150px; height:150px; border-radius:50%; border:3px solid white; box-shadow:0 0 20px rgba(255,255,255,0.3); transition: transform 0.3s; }
-.profile-img:hover { transform: scale(1.05); }
+
+/* Profile Image Frame */
+.profile-img {
+    width:150px; height:150px; border-radius:50%;
+    border:3px solid rgba(255,255,255,0.3);
+    box-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(255,75,92,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.profile-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255,255,255,0.5), 0 0 60px rgba(255,75,92,0.3);
+}
+
 h1 { margin-top:20px; font-size:2em; }
 p { font-size:1.2em; color:#ccc; }
 
@@ -76,19 +87,29 @@ p { font-size:1.2em; color:#ccc; }
 .gallery { margin:40px 20px; position: relative; z-index:2; }
 .gallery h2 { font-size:1.8em; margin-bottom:20px; }
 .gallery-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; overflow-x:auto; padding-bottom:10px; }
-.gallery-item { position: relative; width:180px; height:300px; border-radius:10px; overflow:hidden; }
+.gallery-item {
+    position: relative; width:180px; height:300px; border-radius:15px; overflow:hidden;
+    border: 2px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 15px rgba(255,255,255,0.1), 0 0 30px rgba(255,75,92,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255,255,255,0.3), 0 0 50px rgba(255,75,92,0.15);
+}
 .gallery-item::before {
     content:'';
     position:absolute; top:0; left:0; width:100%; height:100%;
-    background: rgba(255,255,255,0.1); backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
     transition: backdrop-filter 0.3s;
     z-index:1;
+    border-radius:15px;
 }
 .gallery-item img {
-    width:100%; height:100%; object-fit:cover; border-radius:10px;
+    width:100%; height:100%; object-fit:cover; border-radius:15px;
     display:block; position:relative; z-index:0; transition: transform 0.3s;
 }
-.gallery-item:hover img { transform: scale(1.05); }
 .gallery-item:hover::before { backdrop-filter: blur(0px); }
 
 /* Contact */
@@ -97,6 +118,7 @@ p { font-size:1.2em; color:#ccc; }
 .contact p { font-size:1.1em; color:#ddd; margin:5px 0; }
 .contact a { color:#ff4b5c; text-decoration:none; }
 .contact a:hover { text-decoration:underline; }
+
 </style>
 </head>
 <body>
