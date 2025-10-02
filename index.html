@@ -8,7 +8,7 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
 
-/* Background with dynamic color fallback */
+/* Stone / Rock Background */
 body {
     margin:0;
     font-family: Arial, sans-serif;
@@ -17,24 +17,28 @@ body {
     overflow-x:hidden;
     position: relative;
     min-height:100vh;
-    background: linear-gradient(-45deg, #1e1e2f, #2a2a3d, #1e1e2f, #2a2a3d);
+    background: linear-gradient(135deg, #e0ddd6 0%, #cfcac0 50%, #e6e3db 100%);
     transition: background 1s ease, opacity 1s ease;
 }
 
-/* Floating shapes */
+/* Minimalist floating leaf-like shapes */
 .shape {
     position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    animation: floatShape linear infinite;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; /* organic leaf-like */
+    opacity: 0.08;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(200,255,200,0.15));
+    filter: blur(15px);
+    animation: floatLeaf linear infinite;
+    z-index: 0;
 }
-.shape1 { width: 200px; height: 200px; top: 10%; left: 15%; animation-duration: 25s; }
-.shape2 { width: 150px; height: 150px; top: 70%; left: 75%; animation-duration: 30s; }
-.shape3 { width: 100px; height: 100px; top: 50%; left: 40%; animation-duration: 20s; }
-@keyframes floatShape {
-    0% { transform: translateY(0px) translateX(0px); }
-    50% { transform: translateY(-50px) translateX(30px); }
-    100% { transform: translateY(0px) translateX(0px); }
+.shape1 { width: 150px; height: 250px; top: 5%; left: 15%; animation-duration: 30s; }
+.shape2 { width: 200px; height: 300px; top: 60%; left: 65%; animation-duration: 35s; }
+.shape3 { width: 120px; height: 200px; top: 35%; left: 40%; animation-duration: 25s; }
+
+@keyframes floatLeaf {
+    0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+    50% { transform: translateY(-50px) translateX(20px) rotate(15deg); }
+    100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
 }
 
 /* Intro Animation */
@@ -123,11 +127,12 @@ p { font-size:1.2em; color:#ccc; }
 }
 #lightbox img { max-width:90%; max-height:90%; border-radius:15px; box-shadow:0 0 30px rgba(255,255,255,0.5); transition: transform 0.3s; }
 #lightbox img:hover { transform: scale(1.05); }
+
 </style>
 </head>
 <body>
 
-<!-- Floating shapes -->
+<!-- Minimalist Floating Shapes -->
 <div class="shape shape1"></div>
 <div class="shape shape2"></div>
 <div class="shape shape3"></div>
@@ -183,7 +188,7 @@ p { font-size:1.2em; color:#ccc; }
     <!-- Contact -->
     <section class="contact">
         <h2>Contact Me</h2>
-        <p>Phone: <a href="tel:+639934542191">+639934542191</a></p>
+        <p>Phone: <a href="tel:09934542191">09934542191</a></p>
         <p>Email: <a href="mailto:johnpaulpedochino15@gmail.com">johnpaulpedochino15@gmail.com</a></p>
     </section>
 </div>
@@ -236,8 +241,8 @@ document.querySelectorAll('.gallery-item img').forEach(img=>{
 });
 lightbox.addEventListener('click', ()=>{
     lightbox.style.display='none';
-    // revert background to original gradient
-    document.body.style.background = 'linear-gradient(-45deg, #1e1e2f, #2a2a3d, #1e1e2f, #2a2a3d)';
+    // revert background to original stone gradient
+    document.body.style.background = 'linear-gradient(135deg, #e0ddd6 0%, #cfcac0 50%, #e6e3db 100%)';
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
